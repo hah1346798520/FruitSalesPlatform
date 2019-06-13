@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.hah.FruitSalesPlatform.dao.CommoditiesDao">
+	<select id="find" parameterType="CommoditiesMapper" resultType="Commodities">
+		SELECT * FROM commodities 
+		WHERE 1=1
+		<include refid="find_where"></include>
+	</select>
+	
+	<sql id="find_where">
+		<if test="fruitName!=null and fruitName!=''">and fruitName like concat('%',#{fruitName},'%')</if>
+		<if test="locality!=null and locality!=''">and locality like concat('%',#{locality},'%')</if>
+		<if test="minPrice!=null">
+			<![CDATA[ and price >= #{minPrice}]]>
+		</if>
+		<if test="maxPrice!=null">
+			<![CDATA[ and price <= #{maxPrice}]]>
+		</if>
+		<if test="startTime!=null">
+			<![CDATA[ and createTime >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%m:%s')]]>
+		</if>
+		<if test="endTime!=null">
+			<![CDATA[ and createTime <= DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%m:%s')]]>
+		</if>
+	</sql>
+	
+	<select id="get" parameterType="java.lang.String" resultType="Commodities">
+		select * from commodities where fruitId = #{id} limit 1
+	</select>
+	
+	<update id="update" parameterType="Commodities">
+		update commodities
+		<set>
+			<if test="fruitName!=null and fruitName!=''">fruitName = #{fruitName},</if>
+			<if test="price!=null and price!=''">price = #{price},</if>
+			<if test="locality!=null and locality!=''">locality = #{locality},</if>
+			createTime = now()
+		</set>
+		where fruitId = #{fruitId}
+	</update>
+	
+	<select id="findAll"  resultType="Commodities">
+		SELECT * FROM commodities 
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from commodities where fruitId = #{id}
+	</delete>
+	
+	<insert id="insert" parameterType="Commodities">
+		insert into commodities 
+		(fruitId, fruitName, price,locality,createTime)
+		values
+		(#{fruitId}, #{fruitName}, #{price},#{locality},#{createTime})
+	</insert>
+</mapper>

@@ -1,0 +1,16 @@
+2019/06/12-18:41 [main] INFO  cn.com.hah.FruitSalesPlatform.FruitSalesPlatformApplication- Starting FruitSalesPlatformApplication on LAPTOP-OAN4U8FN with PID 11924 (E:\developstudydemo\myWorkSpace\FruitSalesPlatform\target\classes started by lenovo in E:\developstudydemo\myWorkSpace\FruitSalesPlatform)
+2019/06/12-18:41 [main] INFO  cn.com.hah.FruitSalesPlatform.FruitSalesPlatformApplication- No active profile set, falling back to default profiles: default
+2019/06/12-18:41 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 8080 (http)
+2019/06/12-18:41 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
+2019/06/12-18:41 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.19]
+2019/06/12-18:41 [main] INFO  org.apache.jasper.servlet.TldScanner- At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2019/06/12-18:41 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring embedded WebApplicationContext
+2019/06/12-18:41 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 2189 ms
+2019/06/12-18:41 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
+2019/06/12-18:41 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 8080 (http) with context path ''
+2019/06/12-18:41 [main] INFO  cn.com.hah.FruitSalesPlatform.FruitSalesPlatformApplication- Started FruitSalesPlatformApplication in 3.963 seconds (JVM running for 4.433)
+2019/06/12-18:41 [http-nio-8080-exec-2] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019/06/12-18:41 [http-nio-8080-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
+2019/06/12-18:41 [http-nio-8080-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 14 ms
+2019/06/12-18:41 [http-nio-8080-exec-2] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Starting...
+2019/06/12-18:41 [http-nio-8080-exec-2] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Start completed.

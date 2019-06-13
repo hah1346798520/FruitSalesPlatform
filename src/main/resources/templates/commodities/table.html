@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>commoditiestable</title>
+</head>
+<body>
+	<div th:if="!${#lists.isEmpty(list)}">
+		<table style="margin-top: 10px;width: 700px;text-align: center;" border="1">
+			<tr>
+				<td>序号</td>
+				<td>名称</td>
+				<td>价格</td>
+				<td>产地</td>
+				<td>创建日期</td>
+				<td>操作</td>
+			</tr>
+			<tr th:each="commodities,commoditiesStat:${list}">
+				<td th:text="${commoditiesStat.count}">序号</td>
+				<td th:text="${commodities.fruitName}">姓名</td>
+				<td th:text="${commodities.price}">价格</td>
+				<td th:text="${commodities.locality}">产地</td>
+				<td th:text="${#dates.format(commodities.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+				<td><a th:onclick="editCommodities([[${commodities.fruitId}]])">编辑</a>|
+				<a th:onclick="deleteCommodities([[${commodities.fruitId}]],[[${commodities.fruitName}]])">删除</a>|
+				<a th:onclick="openWindows([[${commodities.fruitId}]])">附属品</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div th:if="${#lists.isEmpty(list)}">
+		<b>搜索结果为空</b>
+	</div>
+</body>
+<script src="../../static/js/jquery-min.js" th:src="@{/js/jquery-min.js}"></script>
+<script th:src="@{/js/path.js}"></script>
+<script th:src="@{/js/commodities/table.js}"></script>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.hah.FruitSalesPlatform.dao.RetailerDao">
+	<select id="find" parameterType="RetailerMapper" resultType="Retailer">
+		SELECT * FROM retailer 
+		WHERE 1=1
+		<include refid="find_where"></include>
+	</select>
+	
+	<sql id="find_where">
+		<if test="name!=null and name!=''">and name like concat('%',#{name},'%')</if>
+		<if test="telephone!=null and telephone!=''">and telephone like concat('%',#{telephone},'%')</if>
+		<if test="address!=null and address!=''">and address like concat('%',#{address},'%')</if>
+		<if test="status!=null and status!=-1">and status = #{status}</if>
+		<if test="startTime!=null">
+			<![CDATA[ and createTime >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%m:%s')]]>
+		</if>
+		<if test="endTime!=null">
+			<![CDATA[ and createTime <= DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%m:%s')]]>
+		</if>
+	</sql>
+	
+	<select id="get" parameterType="java.lang.String" resultType="Retailer">
+		select * from retailer where retailerId = #{id} limit 1
+	</select>
+	
+	<update id="update" parameterType="Retailer">
+		update retailer
+		<set>
+			<if test="name!=null and name!=''">name = #{name},</if>
+			<if test="telephone!=null and telephone!=''">telephone = #{telephone},</if>
+			<if test="address!=null and address!=''">address = #{address},</if>
+			status = #{status},
+			createTime = now()
+		</set>
+		where retailerId = #{retailerId}
+	</update>
+	
+	<select id="findAll"  resultType="Retailer">
+		SELECT * FROM retailer 
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from retailer where retailerId = #{id}
+	</delete>
+	
+	<insert id="insert" parameterType="Retailer">
+		insert into retailer 
+		(retailerId, name, telephone,address,status,createTime)
+		values
+		(#{retailerId}, #{name}, #{telephone},#{address},#{status},#{createTime})
+	</insert>
+</mapper>

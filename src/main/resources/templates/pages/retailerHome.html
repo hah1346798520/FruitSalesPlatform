@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>零售商管理</title>
+<style>
+	*{margin: 0;padding: 0;}
+	#menuContent a{text-decoration: none;color: #ffffff}
+	.c{
+		border-style: solid;width:300px; height:130px; margin:4 23 0 23; border-radius: 5;display: block;
+		background-color: #fff; margin:10% auto;
+	}
+	.mask{
+		width:100%;height:100%; position: absolute; background:rgba(0,0,0,.3);display: none;
+	}
+</style>
+</head>
+<body>
+	<div th:include="/pages/menu :: headmenu"></div><br/>
+	<form>
+		姓名：<input type="text" id="name" name="name" style="width:120px"/>
+		手机：<input type="text" id="telephone" name="telephone" style="width:120px"/>
+		地址：<input type="text" id="address" name="address" style="width:120px"/><br/><br/>
+		状态：<select id="indexStatus" onchange="changeStatus()">
+		<option value="-1" selected="selected">全部</option>
+		<option value="1">启用</option>
+		<option value="0">停用</option>
+		</select>
+		<input type="hidden" name="status" id="status" value="-1">
+			开始时间：<input type="date" name="startTime" id="startTime">
+			结束时间：<input type="date" name="endTime" id="endTime" th:max="${#dates.format(new java.util.Date().getTime(),'yyyy-MM-dd')}">
+		<input type="button" id="search" value="搜索" style="background-color: #173e65;color: #ffffff;width: 70px;">
+	</form>
+	<hr style="margin-top: 10px">
+	<button onclick="showAddMask('true')" style="background-color: #173e65; color: #ffffff;width: 70px;">添加</button>
+	<div id="result">
+	
+	</div>
+	<div style="margin-top: 10px">
+	<a>上一页</a><a>下一页</a>
+	<input type="text" id="pageNumber" style="width: 50px;"><button>go</button>
+	</div>
+	<div class="addMask">
+		<div class="c">
+			<div style="background-color: #173e65;height:20px; color:#fff;font-size:12px;padding-left:7px">
+			添加信息<font style="float: right;padding-right: 10px;" onclick="showAddMask('false')">x</font>
+			</div>
+			<form id="addForm">
+			姓名：<input type="text" id="addName" name="name" style="width:120px"/><span id="addName_span" style="color: red;"></span><br/>
+			手机：<input type="text" id="addTelephone" name="telephone" style="width:120px"/><span id="addTelephone_span" style="color: red;"></span><br/>
+			地址：<input type="text" id="addAddress" name="address" style="width:120px"/><span id="addAddress_span" style="color: red;"></span><br/>
+			<input type="hidden" name="status" value="1" />
+			<input type="button" id="addRetailer" value="添加" style="background-color: #173#e65;color: #ffffff; width:70px"/>
+			</form>
+		</div>
+	</div>
+	<div class="mask">
+		<div class="c">
+			<div style="background-color: #173e65;height:20px; color:#fff;font-size:12px;padding-left:7px">
+			修改信息<font style="float: right;padding-right: 10px;" th:onclick="cancelEdit()">x</font>
+			</div>
+			<form id="editForm">
+			姓名：<input type="text" id="editName" name="name" style="width:120px"/><br/>
+			手机：<input type="text" id="editTelephone" name="telephone" style="width:120px"/><br/>
+			地址：<input type="text" id="editAddress" name="address" style="width:120px"/><br/>
+			状态：<select id="eStatus" onchange="changeEditStatus()">
+					<option value="1">启用</option>
+					<option value="0">停用</option>
+			</select><br/>
+			<input type="hidden" name="retailerId" id="retailerId" />
+			<input type="hidden" name="status" id="editStatus" />
+			<input type="hidden" name="startPage" id="eStartPage" />
+			<input type="hidden" name="currentPage" id="eCurrentPage" />
+			<input type="hidden" name="pageSize" id="ePageSize" />
+			<input type="button" id="editFormSubmit" value="提交" style="background-color: #173#e65;color: #ffffff; width:70px"/>
+			</form>
+		</div>
+	</div>
+</body>
+<script src="../../static/js/jquery-min.js" th:src="@{/js/jquery-min.js}"></script>
+<script th:src="@{/js/path.js}"></script>
+<script th:src="@{/js/retailer/retailerHome.js}"></script>
+<script type="text/javascript">
+$(function(){
+	/*设置开始时间必须小于等于结束时间  */
+	$("#startTime").change(function(){
+		$("#endTime").attr("min",$("#startTime").val());
+	});
+	$("#endTime").change(function(){
+		$("#startTime").attr("max",$("#endTime").val());
+	});
+	$("#search").click(findRetailer);
+	$("#editFormSubmit").click(editFormSubmit);
+	$("#addRetailer").click(addRetailer);
+	findAll();
+	showAddMask(false);
+});
+</script>
+</html>

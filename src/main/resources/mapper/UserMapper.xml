@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.hah.FruitSalesPlatform.dao.UserDao">
+	<select id="findUserByUsername" parameterType="java.lang.String" resultType="User">
+		SELECT * FROM USER WHERE username like #{username }
+	</select>
+
+	<insert id="insert" parameterType="User">
+		INSERT into USER
+		(USERID,USERNAME,PASSWORD,NAME,TELEPHONE)
+		values
+		(#{userId},#{userName},#{password},#{name},#{telephone})
+	</insert>
+
+
+
+
+</mapper>

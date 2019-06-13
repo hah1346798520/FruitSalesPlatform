@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.hah.FruitSalesPlatform.dao.ContractDao">
+	<select id="getMaxBarCode" resultType="java.lang.String">
+		select MAX(barcode) from contract
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from contract 
+		where contractId = #{contractId}
+	</delete>
+	<delete id="deleteMiddleTab" parameterType="java.lang.String">
+		delete from middleTab 
+		where contractId = #{contractId}
+	</delete>
+	<insert id="insert" parameterType="Contract">
+		insert into contract 
+		(contractId, barCode, type,retailerId,createTime)
+		values
+		(#{contractId}, #{barCode}, #{type},#{retailerId},#{createTime})
+	</insert>
+	<select id="get" parameterType="java.lang.String" resultMap="ContractRM">
+		select t.contractId, t.barCode, t.createTime, t.type, r.retailerId, r.name as retailerName, r.telephone, r.address,
+		mdl.fruitId,mdl.fruitName, mdl.price, mdl.locality, mdl.number, mdl.accessoryName, mdl.accessoryPrice
+		from(
+			select c.fruitId, c.fruitName, c.price ,c.locality, m.number ,a.name as accessoryName ,
+			a.price as accessoryPrice
+			from middleTab m 
+			left join commodities c on m.fruitId = c.fruitId 
+			left join accessory a on a.fruitId = m.fruitId
+			where m.contractId = #{contractId}
+		) mdl, contract t left join retailer r 
+		on t.retailerId = r.retailerId
+		where t.contractId = #{contractId}
+	</select>
+	
+	<resultMap type="ContractDetail" id="ContractRM">
+		<id property="contractId" column="contractId"/>
+		<result property="barCode" column="barCode"/>
+		<result property="type" column="type"/>
+		<result property="createTime" column="createTime"/>
+		<association property="retailer">
+			<id property="retailerId" column="retailerId"/>
+			<result property="name" column="retailerName"/>
+			<result property="telephone" column="telephone"/>
+			<result property="address" column="address"/>
+		</association>
+		<collection property="commoditiesList" ofType="CommoditiesVo">
+			<id property="fruitId" column="fruitId"/>
+			<result property="fruitName" column="fruitName"/>
+			<result property="price" column="price"/>
+			<result property="locality" column="locality"/>
+			<result property="number" column="number"/>
+			<collection property="accessoryList" ofType="Accessory">
+				<result property="name" column="accessoryName"/>
+				<result property="price" column="accessoryPrice"/>
+			</collection>
+		</collection>
+	
+	</resultMap>
+	<insert id="insertMiddleTab" parameterType="MiddleTab">
+		insert into middletab 
+		(middleId, contractId, fruitId,number)
+		values
+		(#{middleId}, #{contractId}, #{fruitId},#{number})
+	</insert>
+	
+	<select id="find" parameterType="ContractVoMapper" resultType="ContractVo">
+		SELECT c.contractId,c.barCode,c.createTime,c.type,r.name as retailerName
+		FROM contract c left join retailer r 
+		on c.retailerId = r.retailerId
+		WHERE 1=1
+		<include refid="find_where"></include>
+		<if test="retailerName!=null">and r.name like concat('%',#{retailerName},'%')</if>
+	</select>
+	
+	<sql id="find_where">
+		<if test="barCode!=null and barCode!=''">and c.barCode like concat('%',#{barCode},'%')</if>
+		<if test="type!=null and type!='-1'">and c.type like #{type}</if>
+		<if test="startTime!=null">
+			<![CDATA[ and createTime >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%m:%s')]]>
+		</if>
+		<if test="endTime!=null">
+			<![CDATA[ and createTime <= DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%m:%s')]]>
+		</if>
+	</sql>
+</mapper>

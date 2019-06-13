@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.hah.FruitSalesPlatform.dao.AccessoryDao">
+	<select id="findByFruitId" parameterType="java.lang.String" resultType="Accessory">
+		select * from accessory where fruitId = #{id}
+	</select>
+	
+	<insert id="insert" parameterType="Accessory">
+		insert into accessory 
+		(accessoryid,fruitid, name, price,createTime)
+		values
+		(#{accessoryId},#{fruitId}, #{name}, #{price},#{createTime})
+	</insert>
+	
+	<delete id="deleteByAccessoryId" parameterType="java.lang.String">
+		delete from accessory where accessoryid = #{id}
+	</delete>
+	
+	<delete id="deleteByFruitId" parameterType="java.lang.String">
+		delete from accessory where fruitid = #{id}
+	</delete>
+</mapper>

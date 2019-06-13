@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>合同详情</title>
+<style type="text/css">
+	*{margin: 0;padding: 0;}
+</style>
+</head>
+<body>
+	<h2 style="text-align: center;">合同详情</h2>
+	创建日期：<div style="float: right;font-size: 10px;" th:text="${#dates.format(contractDetail.createTime, 'yyyy-MM-dd HH:mm:ss')}"></div>
+	合同编码：<b style="color: blue;">"[[${contractDetail.barCode}]]"</b><br/>
+	<div th:if="${contractDetail.type==0}">类型：省内</div>
+	<div th:if="${contractDetail.type==1}">类型：省内</div><br/><hr/>
+	<div class="info">零售商信息<br/>
+		姓名：[[${contractDetail.retailer.name}]]<br/>
+		联系电话：[[${contractDetail.retailer.telephone}]]<br/>
+		送货地址：[[${contractDetail.retailer.address}]]<br/>
+	</div><hr/>
+	<div class="info">货物信息<br/>
+		<table th:if="!${#lists.isEmpty(contractDetail.commoditiesList)}"  style="width: 510px;text-align: center;" border="1">
+			<tr>
+				<td>名称</td>
+				<td>价格</td>
+				<td>产地</td>
+				<td>附属品</td>
+				<td>数量</td>
+			</tr>
+			<tr th:each="item,itemStat:${contractDetail.commoditiesList}">
+				<td th:text="${item.fruitName}"></td>
+				<td>[[${item.price}]]元/斤</td>
+				<td th:text="${item.locality}"></td>
+				<td th:if="!${#lists.isEmpty(item.accessoryList)}">
+					<div th:each="accessoryItem:${item.accessoryList}">[[${accessoryItem.name}]]:[[${accessoryItem.price}]]元<br/>
+					</div>
+				</td>
+				<td th:if="${#lists.isEmpty(item.accessoryList)}">无</td>
+				<td>[[${item.number}]]斤</td>
+			</tr>
+		</table>
+	
+	
+	
+	</div>
+	<button style="float: inherit;" id="p" onclick="printpage()">打印</button>
+</body>
+<script src="../../static/js/jquery-min.js" th:src="@{/js/jquery-min.js}"></script>
+<script th:src="@{/js/path.js}"></script>
+<script type="text/javascript">
+function printpage(){
+	$("#p").css("display","none");
+	window.print();
+	$("#p").css("display","block");
+}
+
+</script>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>commoditiesList</title>
+</head>
+<body>
+	<div th:if="!${#lists.isEmpty(list)}">
+		<table style="width: 375px;text-align: center;" border="1">
+			<tr>
+				<td><input type="checkbox" th:onclick="checkAll(this)"/></td>
+				<td>名称</td>
+				<td>价格</td>
+				<td>产地</td>
+			</tr>
+			<tr th:each="commodities,commoditiesStat:${list}">
+				<td><input type="checkbox" name="arrays" th:value="${commodities.fruitId}"/></td>
+				<td th:text="${commodities.fruitName}">姓名</td>
+				<td th:text="${commodities.price}">价格</td>
+				<td th:text="${commodities.locality}">产地</td>
+			</tr>
+		</table>
+	</div>
+</body>
+<script src="../../static/js/jquery-min.js" th:src="@{/js/jquery-min.js}"></script>
+<script th:src="@{/js/path.js}"></script>
+<script type="text/javascript">
+function checkAll(obj){
+	var ischeck=obj.checked;
+	var checkList=$("[name='arrays']");
+	for(var i=0;i<checkList.length;i++){
+		checkList[i].checked=ischeck;
+	}
+}
+</script>
+</html>

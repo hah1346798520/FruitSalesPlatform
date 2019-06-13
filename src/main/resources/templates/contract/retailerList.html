@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>retailerList</title>
+</head>
+<body>
+	<div th:if="!${#lists.isEmpty(list)}" th:each="item,itemStat:${list}">
+		<p th:onclick="selectRetailer([[${item.retailerId}]],[[${item.name}]],[[${item.telephone}]],[[${item.address}]])" th:text="${item.name}"></p>
+	</div>
+</body>
+<script src="../../static/js/jquery-min.js" th:src="@{/js/jquery-min.js}"></script>
+<script th:src="@{/js/path.js}"></script>
+<script th:src="@{/js/contract/table.js}"></script>
+<script type="text/javascript">
+</script>
+</html>

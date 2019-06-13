@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>注册页面</title>
+</head>
+<body>
+	<div id="content">
+		<div id="form">
+			<h1>用户注册</h1>
+			<form  id="myform">
+				用户名<input type="text" id="username" name="username" style="width:190px;height:26px;margin-left: 39px"/><span id="username_span"></span><br/>
+				密码<input type="password" id="password" name="password" style="width:190px;height:26px;margin-top: 8px;margin-left: 54px"/><span id="password_span"></span><br/>
+				姓名<input type="text" id="name" name="name" style="width:190px;height:26px;margin-top: 8px;margin-left: 54px"/><span id="name_span"></span><br/>
+				手机号<input type="text" id="telephone" name="telephone" style="width:190px;height:26px;margin-top: 8px;margin-left: 54px"/><span id="telephone_span"></span><br/>
+				<input type="button" id="register" value="注册" style="width:50px;height: 30px;margin-top: 8px"/>
+				<a href="toLogin">返回登陆页面</a>
+			</form>
+		</div>
+	</div>
+</body>
+
+<script src="../../static/js/jquery-min.js" th:src="@{/js/jquery-min.js}"></script>
+<script th:src="@{/js/path.js}"></script>
+<script th:src="@{/js/user/register.js}"></script>
+<script type="text/javascript">
+	/* 绑定注册点击事件 */
+$(function(){
+	$("#register").click(userRegister);
+});
+</script>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>购销合同管理</title>
+<style>
+	*{margin: 0;padding: 0;}
+	#menuContent a{text-decoration: none;color: #ffffff}
+	.c{
+		border-style: solid;width:300px; height:130px; margin:4 23 0 23; border-radius: 5;display: block;
+		background-color: #fff; margin:10% auto;
+	}
+	.mask{
+		width:100%;height:100%; position: absolute; background:rgba(0,0,0,.3);display: none;
+	}
+</style>
+</head>
+<body>
+	<div th:include="/pages/menu :: headmenu"></div><br/>
+	<form>
+		合同号：<input type="text" id="barCode" name="barCode" style="width:120px"/>
+		零售商：<input type="text" id="retailerName" name="retailerName" style="width:120px"/>
+		类型：<select id="indexType" onchange="changeType()">
+		<option value="-1" selected="selected">全部</option>
+		<option value="1">省外</option>
+		<option value="0">省内</option>
+		</select>
+		<input type="hidden" name="type" id="type" value="-1"/><br/><br/>
+		创建时间：<input type="date" name="startTime" id="startTime">
+		- <input type="date" name="endTime" id="endTime" th:max="${#dates.format(new java.util.Date().getTime(),'yyyy-MM-dd')}">
+		<input type="button" id="search" value="搜索" style="background-color: #173e65;color: #ffffff;width: 70px;">
+	</form>
+	<hr style="margin-top: 10px">
+	<button onclick="addContract()" style="background-color: #173e65; color: #ffffff;width: 70px;">添加</button>
+	<div id="result">
+	
+	</div>
+	<div style="margin-top: 10px">
+	<a>上一页</a><a>下一页</a>
+	<input type="text" id="pageNumber" style="width: 50px;"><button>go</button>
+	</div>
+</body>
+<script src="../../static/js/jquery-min.js" th:src="@{/js/jquery-min.js}"></script>
+<script th:src="@{/js/path.js}"></script>
+<script th:src="@{/js/contract/home.js}"></script>
+<script type="text/javascript">
+$(function(){
+	/*设置开始时间必须小于等于结束时间  */
+	$("#startTime").change(function(){
+		$("#endTime").attr("min",$("#startTime").val());
+	});
+	$("#endTime").change(function(){
+		$("#startTime").attr("max",$("#endTime").val());
+	});
+	$("#search").click(findContract);
+	findContract();
+});
+</script>
+</html>

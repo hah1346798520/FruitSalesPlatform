@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>retailertable</title>
+</head>
+<body>
+	<div th:if="!${#lists.isEmpty(list)}">
+		<table style="margin-top: 10px;width: 700px;text-align: center;" border="1">
+			<tr>
+				<td>序号</td>
+				<td>姓名</td>
+				<td>手机号</td>
+				<td>地址</td>
+				<td>状态</td>
+				<td>创建日期</td>
+				<td>操作</td>
+			</tr>
+			<tr th:each="retailer,retailerStat:${list}">
+				<td th:text="${retailerStat.count}">序号</td>
+				<td th:text="${retailer.name}">姓名</td>
+				<td th:text="${retailer.telephone}">手机号</td>
+				<td th:text="${retailer.address}">地址</td>
+				<td>
+				<font color="blue" th:if="${retailer.status==1}">启用</font>
+				<font color="red" th:if="${retailer.status==0}">停用</font>
+				</td>
+				<td th:text="${#dates.format(retailer.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+				<td><a th:onclick="editRetailer([[${retailer.retailerId}]])">编辑</a>|
+				<a th:onclick="deleteRetailer([[${retailer.retailerId}]],[[${retailer.name}]])">删除</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div th:if="${#lists.isEmpty(list)}">
+		<b>搜索结果为空</b>
+	</div>
+</body>
+<script src="../../static/js/jquery-min.js" th:src="@{/js/jquery-min.js}"></script>
+<script th:src="@{/js/path.js}"></script>
+<script th:src="@{/js/retailer/table.js}"></script>
+</html>

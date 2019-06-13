@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>contracttable</title>
+</head>
+<body>
+	<div th:if="!${#lists.isEmpty(list)}">
+		<table style="margin-top: 10px;width: 700px;text-align: center;" border="1">
+			<tr>
+				<td>序号</td>
+				<td>合同编号</td>
+				<td>零售商</td>
+				<td>类型</td>
+				<td>创建日期</td>
+				<td>操作</td>
+			</tr>
+			<tr th:each="item,itemStat:${list}">
+				<td th:text="${itemStat.count}">序号</td>
+				<td ><a href="#" th:onclick="getContractDetail([[${item.contractId}]])" th:text="${item.barCode}"></a></td>
+				<td th:text="${item.retailerName}">零售商</td>
+				<td>
+				<font th:if="${item.type==1}" color="blue">省外</font>
+				<font th:if="${item.type==0}" color="red">省内</font>
+				</td>
+				<td th:text="${#dates.format(item.createTime, 'yyyy-MM-dd HH:mm:ss')}">创建日期</td>
+				<td>
+				<a th:onclick="deleteContract([[${item.contractId}]],[[${item.barCode}]])">删除</a>
+				<input type="hidden" name="contractId" id="dcontractId">
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div th:if="${#lists.isEmpty(list)}">
+		<b>搜索结果为空</b>
+	</div>
+</body>
+<script src="../../static/js/jquery-min.js" th:src="@{/js/jquery-min.js}"></script>
+<script th:src="@{/js/path.js}"></script>
+<script type="text/javascript">
+function getContractDetail(id){
+	var url=path+"/contract/getContract?contractId="+id;
+	window.open(url,"合同详情","height=700,width=700,scrollbars=yes");
+}
+function deleteContract(contractId,barCode){
+	if(window.confirm("你确定要删除编号为"+barCode+"的合同信息吗？")){
+		$.ajax({
+			url:path+"/contract/deleteContract",
+			type:"get",
+			data:{"contractId":contractId},
+			dataType:"json",
+			success:function(){
+				alert("删除成功！");
+				findContract();
+			},
+			error:function(){alert("删除失败！")}
+				
+		});
+	}
+}
+
+
+</script>
+</html>

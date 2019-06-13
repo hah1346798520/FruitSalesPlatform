@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>commoditiesAndAccessory</title>
+</head>
+<body>
+	<div th:if="!${#lists.isEmpty(list)}">
+		<table style="width: 510px;text-align: center;" border="1">
+			<tr>
+				<td>名称</td>
+				<td>价格</td>
+				<td>产地</td>
+				<td>附属品</td>
+				<td>数量</td>
+			</tr>
+			<tr th:each="commoditiesVo,commoditiesVoStat:${list}">
+				<td th:text="${commoditiesVo.fruitName}">姓名</td>
+				<td th:text="${commoditiesVo.price}">价格</td>
+				<td th:text="${commoditiesVo.locality}">产地</td>
+				<td th:if="!${#lists.isEmpty(commoditiesVo.accessoryList)}">
+					<div th:each="accessory,accessoryStat:${commoditiesVo.accessoryList}">
+					[[${accessory.name}]]:[[${accessory.price}]]元
+					</div>
+				</td>
+				<td th:if="${#lists.isEmpty(commoditiesVo.accessoryList)}">无</td>
+				<td><input type="number" style="width:50px;" name="priceArrays" value=1 />
+				<input type="hidden" name="commoditiesIdArrays" th:value="${commoditiesVo.fruitId}">
+				斤</td>
+			</tr>
+		</table>
+	</div>
+</body>
+<script src="../../static/js/jquery-min.js" th:src="@{/js/jquery-min.js}"></script>
+<script th:src="@{/js/path.js}"></script>
+<script type="text/javascript">
+</script>
+</html>
